@@ -1,0 +1,7 @@
+name: hipe
+dependencies:
+  - python
+  - numpy
+  - pandas
+  - spacy
+  - cogsci::pyspellchecker 
