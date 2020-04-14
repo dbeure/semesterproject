@@ -36,3 +36,6 @@ $ cd data
 $ sudo chmod +x download_data.sh && ./download_data.sh
 ```
 
+# Report draft 
+
+* we've found **a lot** of OCR errors, considered [this](http://ipsitransactions.org/journals/papers/tar/2016jan/p3.pdf) but will do manual autocorrect on everything first. In other words, we ignore the "# segment" lines completely
