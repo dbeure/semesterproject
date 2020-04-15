@@ -21,7 +21,7 @@ def preprocess(tok):
     tok = tok.replace('ue', 'u')
     return tok
 
-reader = csv.reader(open('HIPE-test.tsv'), delimiter='\t')
+reader = csv.reader(open('HIPE-test.tsv', encoding='ISO-8859-1'), delimiter='\t')
 #df = pd.DataFrame(reader)
 
 
@@ -29,6 +29,7 @@ TRAIN_DATA = []
 
 #will try this whole thing with an iter() later on
 indices = []    # is the list of indices at which there are NE
+labels = []
 NE_tag= []
 words = []
 sentence = ''
@@ -49,6 +50,8 @@ for row in islice(reader, 9, None): #makes same as writing next(reader, None) 8 
         if tag == 'O':
             j += len(token)+1 #needs an empty space every time to fit the content
         if tag.startswith('B') or tag.startswith('I'):
+            if tag not in labels :
+                labels.append(tag)
             x1 = j
             j += len(token) + 1
             NE_tag.append(tag)
@@ -92,6 +95,7 @@ print(NE_tag)
 print(sentence)
 
 print(TRAIN_DATA)
+print(labels)
 
 string = "bla bla bla this \'ac "
 print(string.split()[-2])
