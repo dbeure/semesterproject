@@ -8,24 +8,34 @@
 
 ```bash        
 # (Optional) Update previous conda instllation
-conda update conda
+$ conda update conda
 ```
 
 2. Run this from the root folder
 
 ```bash
-conda env create --file environment.yml
+$ conda env create --file environment.yml
 
 # (Optional) or if you need to UPDATE/add one of the conda packages, run this:
-conda env update --file environment.yml
+$ conda env update --file environment.yml
 ```
 
 3. Activate the conda environment
     
 ```bash
-conda activate hipe
-# To deactivate:
-conda deactivate hipe
+$ conda activate hipe
+```
+
+4. Install pip libraries
+
+```bash
+$ pip install -r requirements.txt
+```
+
+5. (Optional) deactivate conda environment
+
+```bash
+$ conda deactivate
 ```
 
 ## Downloading the data
