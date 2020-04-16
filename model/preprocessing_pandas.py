@@ -1,8 +1,7 @@
-import pandas as pd
-import re
 import json
 import logging
 import sys
+from dataframe_creator import DataframeCreator
 
 # Setup
 LANG="de"
@@ -75,28 +74,44 @@ def df_to_json_format(df, output_path, unknown_label):
         logging.exception("Unable to process file" + "\n" + "error = " + str(e))
         return None
 
+def join_hyphenated_tokens(df):
+    """Remove hyphens and merge tokens that were split at the end of a line in an article"""
+    # Remove the hyphen in the last row if needed
+    if df.tail(1).TOKEN.any() == '¬':
+        df.drop(df.tail(1).index, inplace=True)
+    
+    print(df.info())
+    indexes_to_remove = []
+    for index, row in df.iterrows():
+        if row.TOKEN == '¬':
+            # Get token above
+            token_half_1 = df.iloc[index-1].TOKEN
+            # Get token below
+            token_half_2 = df.iloc[index+1].TOKEN
+            # Tag '¬' and second half for removal
+            indexes_to_remove.append(index)
+            indexes_to_remove.append(index+1)
+            # Update the first half row token value
+            df.at[index-1, 'TOKEN'] = token_half_1 + token_half_2
+
+    df.drop(indexes_to_remove, inplace=True)
+
+def preprocess(dfs):
+    """Start the preprocessing pipeline for the document dataframes"""
+    for dataframe in dfs:
+        # Remove crochets '¬'
+        join_hyphenated_tokens(dataframe)
 
 if __name__ == "__main__":
     # Get data file
     data_file = open(DATA_FILE_PATH, "r")
+    # Create dataframes
+    dataframes = DataframeCreator().create_dataframes(data_file)
+    # Preprocessing pipeline
+    preprocess(dataframes)
+    
 
-    # Create the corpus dataframe
-    corpus_df = pd.read_csv(
-        data_file,
-        sep='\t',
-        keep_default_na=False,      # treats 'null' as a string rather than a number while parsing
-        skip_blank_lines=True,   
-        comment="#",                # ignores lines starting with '#'
-        quoting=3                   # handles quotes as tokens correctly
-    )
 
-    print("Corpus info:")
-    print(corpus_df.info())
-    print("\n\n")
-    print("First 10 lines:")
-    print(corpus_df.head(10))
-    print("\n\n")
-
-    df_to_json_format(corpus_df, 'Data/ner_corpus_260.json', 'abc')
+    
 
 
