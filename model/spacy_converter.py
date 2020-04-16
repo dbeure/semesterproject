@@ -3,6 +3,25 @@ import logging
 import sys
 
 
+class Converter:
+
+    def text_from_dataframe_tokens(self, df):
+        """
+        Convert TOKEN column into a text according to the info given in the MISC column
+        
+        Note: If MISC contains 'NoSpaceAfter', no space is added to the token.
+        """
+        text = ""
+
+        should_insert_space = True
+        for index, row in df.iterrows():
+            should_insert_space = row.MISC != "NoSpaceAfter"
+
+            text += row.TOKEN + (" " if should_insert_space else "")
+        return text
+
+
+
 def df_to_json_format(df, output_path, unknown_label):
     try:
         fp = open(output_path, 'w')  # output file
