@@ -17,10 +17,12 @@ class Converter:
         text = ""
 
         should_insert_space = True
+        last_row_index = df.index[-1]
         for index, row in df.iterrows():
+            is_last_row = last_row_index == index
             should_insert_space = row.MISC != "NoSpaceAfter"
 
-            text += row.TOKEN + (" " if should_insert_space else "")
+            text += row.TOKEN + (" " if should_insert_space and not is_last_row else "")
         return text
 
     def df_to_json_format(df, output_path, unknown_label=None):
