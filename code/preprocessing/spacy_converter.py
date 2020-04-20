@@ -126,6 +126,27 @@ class Converter:
             logging.exception("Unable to process " + input_file + "\n" + "error = " + str(e))
             return None
 
+
+    def to_spacy(self, data):
+        """the data is give in the format:
+        tuple of the token list and the sentence list
+        token list :[ [ (token1, char_indices, ner_tag) , (token2, char_indices, ner_tag), (token3, char_indices, ner_tag) ... ], [ ... ] ]
+        sentence list: [sentence1, sentence 2 ...]"""
+        TRAIN_DATA = []
+        for i in len(data[0]):  #iterate over all sentences
+            words = []
+            indices = []
+            tags = []
+            text = data[1][i]   #text is the sentence at the particular index
+            for token in data[0][i]:
+                if token[2] != 'O': # if the token has an NER tag
+                    words.append(token([0]))
+                    indices.append(token[1])
+                    tags.append(token[2])
+        TRAIN_DATA.append((text, {'entities': [(z, x[0], x[1], y) for z, x, y in zip(words, indices, tags)]}))
+        return TRAIN_DATA
+
+
 def main():
     converter = Converter()
     converter.df_to_json_format(df, 'data.json')
