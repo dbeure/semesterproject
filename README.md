@@ -49,8 +49,8 @@ $ sudo chmod +x download_data.sh && ./download_data.sh
 ## How to run
 
 ```bash
-# To preprocess the data (assuming we are using the 'hipe' env by conda)
-(hipe) $ python code/preprocess_data.py
+# To preprocess the data
+$ python model/preprocessing_pandas.py
 ```
 
 # Preprocessing Pipeline
