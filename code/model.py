@@ -8,12 +8,15 @@ import random
 from pathlib import Path
 import spacy
 from spacy.util import minibatch, compounding
+from .preprocess_data import
 
 
 TRAIN_DATA = [
     ("Who is Shaka Khan?", {"entities": [(7, 17, "PERSON")]}),
     ("I like London and Berlin.", {"entities": [(7, 13, "LOC"), (18, 24, "LOC")]}),
 ]
+
+TRAIN_DATA =
 
 
 def main(model=None, output_dir=None, n_iter=100):

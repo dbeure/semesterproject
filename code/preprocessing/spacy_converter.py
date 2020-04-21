@@ -130,24 +130,32 @@ class Converter:
             return None
 
 
-    def to_spacy(self, data):
+    def to_spacy(self, doc):
         """the data is give in the format:
         tuple of the token list and the sentence list
         token list :[ [ (token1, char_indices, ner_tag) , (token2, char_indices, ner_tag), (token3, char_indices, ner_tag) ... ], [ ... ] ]
         sentence list: [sentence1, sentence 2 ...]"""
         TRAIN_DATA = []
-        for i in len(data[0]):  #iterate over all sentences
+
+        for i in range(len(doc[0])):  #iterate over all sentences
             words = []
             indices = []
             tags = []
-            text = data[1][i]   #text is the sentence at the particular index
-            for token in data[0][i]:
+            text = doc[1][i]   #text is the sentence at the particular index
+            for token in doc[0][i]:
                 if token[2] != 'O': # if the token has an NER tag
-                    words.append(token([0]))
+                    words.append(token[0])
                     indices.append(token[1])
                     tags.append(token[2])
         TRAIN_DATA.append((text, {'entities': [(z, x[0], x[1], y) for z, x, y in zip(words, indices, tags)]}))
         return TRAIN_DATA
+
+    def convert_all_docs_to_spacy(self, data):
+        result = []
+        for doc in data:
+            spacy_format = self.to_spacy(doc)
+            result.append(spacy_format)
+        return result
 
 
 def main():
