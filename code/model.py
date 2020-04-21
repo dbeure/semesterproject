@@ -10,7 +10,6 @@ import spacy
 from spacy.util import minibatch, compounding
 
 
-TRAIN_DATA = ''
 TRAIN_DATA = [
     ("Who is Shaka Khan?", {"entities": [(7, 17, "PERSON")]}),
     ("I like London and Berlin.", {"entities": [(7, 13, "LOC"), (18, 24, "LOC")]}),

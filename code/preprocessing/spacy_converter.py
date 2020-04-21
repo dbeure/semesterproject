@@ -6,6 +6,7 @@ import json
 import pickle
 
 
+
 class Converter:
 
     def text_from_dataframe_tokens(self, df):
@@ -151,4 +152,4 @@ class Converter:
 
 def main():
     converter = Converter()
-    converter.df_to_json_format(df, 'data.json')
+    sentencesegmenter = SentenceSegmenter()
