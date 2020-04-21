@@ -1,14 +1,20 @@
-
+from .sentence_segmenter import SentenceSegmenter
 
 class Preprocessor:
-    """Handles a preprocessing pipeline"""
+    """Handles the preprocessing pipeline"""
 
 
-    def join_hyphenated_tokens(self, df):
+    def _join_hyphenated_tokens(self, df):
         """
-        Remove hyphens and merge tokens that were split at the end of a line in an article
+        Remove hyphens and merge tokens that were split at the end of a line.
+
+        Example:
+            'verste', '¬', 'hen' ~> 'verstehen' 
+
+            The merged token ('verstehen') would have the metadata 
+            (NER tags) of the first token ('verste').
         """
-        # Remove the hyphen in the last row if needed
+        # Remove the hyphen in the last row of the document if needed
         if df.tail(1).TOKEN.any() == '¬':
             df.drop(df.tail(1).index, inplace=True)
         
@@ -29,7 +35,10 @@ class Preprocessor:
 
     def preprocess(self, dfs):
         """Start the preprocessing pipeline for the document dataframes"""
+        segmenter = SentenceSegmenter()
+
         for dataframe in dfs:
-            # 1. remove crochets ('¬') and join the hyphenated tokens
-            self.join_hyphenated_tokens(dataframe)
-            # 2. 
+            # 1. Remove crochets ('¬') and join the hyphenated tokens
+            self._join_hyphenated_tokens(dataframe)
+            # 2. Segment into sentences
+            segmenter.segment_sentences(dataframe)

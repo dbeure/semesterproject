@@ -18,12 +18,12 @@ if __name__ == "__main__":
     # Create dataframes
     dataframes = DataframeCreator().create_dataframes(data_file)
     # Preprocessing pipeline
-    Preprocessor().preprocess(dataframes[:2])
+    Preprocessor().preprocess(dataframes[:1])
 
     #print(dataframes[:1])
-    save_dataframe_to_tsv(dataframes[0])
+    #save_dataframe_to_tsv(dataframes[0])
     #df_to_json_format(dataframes[0], "dataframe_manual.json", "UNK")
-    print(Converter().text_from_dataframe_tokens(dataframes[0]))
+    #print(Converter().text_from_dataframe_tokens(dataframes[0]))
     
 
     
