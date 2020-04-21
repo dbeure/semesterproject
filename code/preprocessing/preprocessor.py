@@ -36,9 +36,13 @@ class Preprocessor:
     def preprocess(self, dfs):
         """Start the preprocessing pipeline for the document dataframes"""
         segmenter = SentenceSegmenter()
-
+        
+        result = []
         for dataframe in dfs:
             # 1. Remove crochets ('¬') and join the hyphenated tokens
             self._join_hyphenated_tokens(dataframe)
             # 2. Segment into sentences
-            segmenter.segment_sentences(dataframe)
+            segments = segmenter.segment_sentences(dataframe)
+            result.append(segments)
+        return result
+        
