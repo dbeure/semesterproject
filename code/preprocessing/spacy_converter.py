@@ -147,7 +147,7 @@ class Converter:
                     words.append(token[0])
                     indices.append(token[1])
                     tags.append(token[2])
-        TRAIN_DATA.append((text, {'entities': [(z, x[0], x[1], y) for z, x, y in zip(words, indices, tags)]}))
+        TRAIN_DATA.append((text, {'entities': [(x[0], x[1], y) for x, y in zip(indices, tags)]}))
         return TRAIN_DATA
 
     def convert_all_docs_to_spacy(self, data):

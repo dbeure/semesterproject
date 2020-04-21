@@ -15,8 +15,13 @@ if __name__ == "__main__":
     processed = Preprocessor().preprocess(dataframes[:1])
     # 3. Convert to spacy
     spacy_format = Converter().convert_all_docs_to_spacy(processed)
-    print(spacy_format[0])
+    spacy_format = spacy_format[0]
     print(spacy_format)
+    # 4. Save the properly formatted output
+    for i, d in enumerate(spacy_format):
+        f = open('../data/preprocessed/train_doc_{}'.format(i), 'w+')
+        f.write(str(d))
+
 
     
 

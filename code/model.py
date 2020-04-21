@@ -8,15 +8,18 @@ import random
 from pathlib import Path
 import spacy
 from spacy.util import minibatch, compounding
-from .preprocess_data import
+
+file = open('../data/preprocessed/train_doc_0', 'r')
 
 
-TRAIN_DATA = [
-    ("Who is Shaka Khan?", {"entities": [(7, 17, "PERSON")]}),
-    ("I like London and Berlin.", {"entities": [(7, 13, "LOC"), (18, 24, "LOC")]}),
-]
+#TRAIN_DATA = [
+#    ("Who is Shaka Khan?", {"entities": [(7, 17, "PERSON")]}),
+#    ("I like London and Berlin.", {"entities": [(7, 13, "LOC"), (18, 24, "LOC")]}),
+#]
 
-TRAIN_DATA =
+TRAIN_DATA = [("Der Umkreisdes neuen Nationalpallasies der 500, dem Antritt der Revolutionsbrücke gegenüber am Seineufergelegen, enthält gegen Norden den Quai d'Orsai bis zur Nationalbrücke, den Platz dela Concorde bis zur Orangerie, längs der Gebäude du Gardemeuble an den elyseischen Feldern hin bis zum Anfange der Straße nach Versailles und dem die Esplanade der Invaliden von der Mauer um den Garten des Raths der 500 scheidet, vom Quai d'Orsai bis zur Universitätsgasse: gegen Südendiese Gasse bis zur Straße Courty; gegen Osten die Straße Bourgogne bis zum Quai d'Orsai In diesem Bezirke haben die Saalinspectoren die Polizeyaufsichtallein; doch kann die allgemeine Polizey Dee",
+               {'entities': [(21, 38, 'B-loc'), (64, 81, 'B-loc'), (95, 104, 'B-loc'), (138, 142, 'B-loc'), (143, 144, 'I-loc'), (144, 145, 'I-loc'), (145, 150, 'I-loc'), (159, 173, 'B-loc'), (179, 184, 'B-loc'), (185, 189, 'I-loc'), (190, 198, 'I-loc'), (207, 216, 'B-loc'), (228, 235, 'B-loc'), (236, 238, 'I-loc'), (239, 250, 'I-loc'), (314, 324, 'B-loc'), (337, 346, 'B-loc'), (347, 350, 'I-loc'), (351, 360, 'I-loc'), (393, 398, 'B-org'), (399, 402, 'I-org'), (403, 406, 'I-org'), (421, 425, 'B-loc'), (426, 427, 'I-loc'), (427, 428, 'I-loc'), (428, 433, 'I-loc'), (442, 459, 'B-loc'), (492, 498, 'B-loc'), (499, 505, 'I-loc'), (523, 529, 'B-loc'), (530, 539, 'I-loc'), (548, 552, 'B-loc'), (553, 554, 'I-loc'), (554, 555, 'I-loc'), (555, 560, 'I-loc')]})]
+
 
 
 def main(model=None, output_dir=None, n_iter=100):
