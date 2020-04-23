@@ -3,13 +3,16 @@
 
 from __future__ import unicode_literals, print_function
 
+import os
 import plac
 import random
 from pathlib import Path
 import spacy
 from spacy.util import minibatch, compounding
 
-file = open('../data/preprocessed/train_doc_0', 'r')
+BASEDIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..")
+PREPROCESSED_FILE_PATH = os.path.join(BASEDIR, 'data/preprocessed/train_doc_0')
+file = open(PREPROCESSED_FILE_PATH, 'r')
 
 
 #TRAIN_DATA = [
