@@ -1,7 +1,12 @@
 name: hipe
 dependencies:
-  - python
+  - python>=3.7
   - numpy
   - pandas
   - spacy
-  - cogsci::pyspellchecker 
+  - cogsci::pyspellchecker
+  - conda-forge::hunspell
+  - pip
+  - pip:
+    - syntok
+    - symspellpy

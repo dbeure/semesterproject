@@ -20,22 +20,20 @@ $ conda env create --file environment.yml
 $ conda env update --file environment.yml
 ```
 
-3. Activate the conda environment
+3. Activate the conda environment 🎉
     
 ```bash
 $ conda activate hipe
 ```
 
-4. Install pip libraries
+4. (Optional) 
 
 ```bash
-$ pip install -r requirements.txt
-```
-
-5. (Optional) deactivate conda environment
-
-```bash
+# To deactivate the conda environment
 $ conda deactivate
+
+# Or to remove it completely
+$ conda remove --name hipe --all
 ```
 
 ## Downloading the data
@@ -57,10 +55,11 @@ $ sudo chmod +x download_data.sh && ./download_data.sh
 
 Ordered list of steps included in the pipeline:
 
-* [x] Load the data into `pandas.DataFrame` for each document (ignore comments and blank lines)
-* [x] Join hyphenated tokens (Remove the crochet - `¬`)
-  * [x] if the last row of a dataframe is a '¬': **remove it**
-  * [x] if there is a `¬` token, **merge** the row above and below into one, remove the crochet row
+1. [x] Load the data into `pandas.DataFrame` for each document (ignore comments and blank lines)
+2. [x] Preprocess
+    1. [x] if the last row of a dataframe is a '¬': **remove it**
+    2. [x] Join hyphenated tokens: if there is a `¬` token, **merge** the row above and below into one, remove the crochet row
+3. [ ] Create Spacy output
 
 ---
 
