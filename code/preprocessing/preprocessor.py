@@ -1,4 +1,5 @@
 from .sentence_segmenter import SentenceSegmenter
+from .spellchecker import Spellchecker
 
 class Preprocessor:
     """Handles the preprocessing pipeline"""
@@ -33,15 +34,28 @@ class Preprocessor:
 
         df.drop(indexes_to_remove, inplace=True)
 
-    def preprocess(self, dfs):
-        """Start the preprocessing pipeline for the document dataframes"""
+    def preprocess(self, dfs, path_to_freq_dict):
+        """
+        Start the preprocessing pipeline for the document dataframes.
+
+        Args:
+            dfs ([pandas.DataFrame]): list of DataFrames
+            path_to_freq_dict (str): path to the german word frequency dictionary
+        """
         segmenter = SentenceSegmenter()
+        spellchecker = Spellchecker(path_to_freq_dict)
         
         result = []
         for dataframe in dfs:
             # 1. Remove crochets ('¬') and join the hyphenated tokens
             self._join_hyphenated_tokens(dataframe)
-            # 2. Segment into sentences
+            # 2. Manual Spellcheck
+            spellchecker.manual_spellcheck(dataframe)
+            # 3. Automated Spellcheck
+            # TODO: Move the automated spellcheck after the senetence 
+            # segmentation?
+            spellchecker.automated_spellcheck(dataframe)
+            # 4. Segment into sentences
             segments = segmenter.segment_sentences(dataframe)
             result.append(segments)
         return result
