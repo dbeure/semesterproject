@@ -2,11 +2,16 @@ name: hipe
 dependencies:
   - python>=3.7
   - numpy
+  - click # command line arguments parsing
   - pandas
-  - spacy
+  - spacy=2.2.4
+  - python-Levenshtein
+  - dask # parallel processing
+  - ipykernel # for jupyter notebook conda env support
   - cogsci::pyspellchecker
   - conda-forge::hunspell
   - pip
   - pip:
     - syntok
     - symspellpy
+    - Wikidata

@@ -136,7 +136,6 @@ class Converter:
         token list :[ [ (token1, char_indices, ner_tag) , (token2, char_indices, ner_tag), (token3, char_indices, ner_tag) ... ], [ ... ] ]
         sentence list: [sentence1, sentence 2 ...]"""
         TRAIN_DATA = []
-
         for i in range(len(doc[0])):  #iterate over all sentences
             words = []
             indices = []
@@ -147,15 +146,8 @@ class Converter:
                     words.append(token[0])
                     indices.append(token[1])
                     tags.append(token[2])
-        TRAIN_DATA.append((text, {'entities': [(x[0], x[1], y) for x, y in zip(indices, tags)]}))
+            TRAIN_DATA.append((text, {'entities': [(x[0], x[1], y) for x, y in zip(indices, tags)]}))
         return TRAIN_DATA
-
-    def convert_all_docs_to_spacy(self, data):
-        result = []
-        for doc in data:
-            spacy_format = self.to_spacy(doc)
-            result.append(spacy_format)
-        return result
 
 
 def main():

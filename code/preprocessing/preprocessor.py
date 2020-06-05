@@ -1,9 +1,9 @@
 from .sentence_segmenter import SentenceSegmenter
 from .spellchecker import Spellchecker
+import pandas as pd
 
 class Preprocessor:
     """Handles the preprocessing pipeline"""
-
 
     def _join_hyphenated_tokens(self, df):
         """
@@ -45,7 +45,7 @@ class Preprocessor:
         segmenter = SentenceSegmenter()
         spellchecker = Spellchecker(path_to_freq_dict)
         
-        result = []
+        preprocessed = []
         for dataframe in dfs:
             # 1. Remove crochets ('¬') and join the hyphenated tokens
             self._join_hyphenated_tokens(dataframe)
@@ -57,6 +57,44 @@ class Preprocessor:
             spellchecker.automated_spellcheck(dataframe)
             # 4. Segment into sentences
             segments = segmenter.segment_sentences(dataframe)
-            result.append(segments)
-        return result
+            preprocessed.append(segments)
         
+        result_ner = []
+        result_sentences = []
+        for ner_data, sentences in preprocessed:
+            result_ner += ner_data
+            result_sentences += sentences
+
+        return result_ner, result_sentences
+
+    def preprocess_for_spacy_convert(self, dfs, path_to_freq_dict):
+        """
+        Start the preprocessing pipeline for the document dataframes. 
+        Create a dataframe ready for use with `spacy convert` CLI command.
+
+        Args:
+            dfs ([pandas.DataFrame]): list of DataFrames
+            path_to_freq_dict (str): path to the german word frequency dictionary
+        """
+        segmenter = SentenceSegmenter()
+        spellchecker = Spellchecker(path_to_freq_dict)
+        result = []
+        for dataframe in dfs:
+            # 0. Uppercase NER tags
+            ner_col = 'NE-COARSE-LIT'
+            dataframe[ner_col] = dataframe[ner_col].str.upper()
+            # 1. Remove crochets ('¬') and join the hyphenated tokens
+            self._join_hyphenated_tokens(dataframe)
+            # 2. Manual Spellcheck
+            spellchecker.manual_spellcheck(dataframe)
+            # 3. Automated Spellcheck
+            # TODO: Move the automated spellcheck after the senetence 
+            # segmentation?
+            #spellchecker.automated_spellcheck(dataframe)
+            # 4. Segment into sentences
+            segmented = segmenter.segment_sentences_to_dataframes(
+                dataframe
+            )
+            result.append(segmented)
+
+        return result
